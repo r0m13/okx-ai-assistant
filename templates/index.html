@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OKX.AI Genesis Assistant</title>
+    <style>
+        :root {
+            --okx-black: #000000;
+            --okx-dark: #111111;
+            --okx-grey: #1e1e1e;
+            --okx-green: #00ffcc;
+            --text-white: #ffffff;
+        }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: var(--okx-black); 
+            color: var(--text-white); 
+            text-align: center; 
+            padding: 20px; 
+            margin: 0;
+        }
+        .container { 
+            max-width: 480px; 
+            margin: 40px auto; 
+            background: var(--okx-dark); 
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 8px 32px rgba(0,255,204,0.15); 
+            border: 1px solid #222;
+        }
+        h1 { 
+            font-size: 26px; 
+            font-weight: 800; 
+            margin-bottom: 5px;
+        }
+        .okx-brand {
+            color: var(--okx-green);
+            border: 1px solid var(--okx-green);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 20px;
+            margin-right: 5px;
+        }
+        .market-title {
+            color: #888;
+            font-size: 13px;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .price-card {
+            background: var(--okx-grey);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #222;
+        }
+        .ticker {
+            font-weight: bold;
+            font-size: 15px;
+        }
+        .price {
+            color: var(--okx-green);
+            font-weight: bold;
+            font-size: 16px;
+        }
+        form {
+            text-align: left;
+            margin-top: 30px;
+        }
+        label {
+            font-size: 11px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background: var(--okx-grey);
+            border: 1px solid #333;
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        input:focus, select:focus {
+            outline: 1px solid var(--okx-green);
+        }
+        button {
+            width: 100%;
+            padding: 14px;
+            background: var(--text-white);
+            color: var(--okx-black);
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+        button:hover {
+            background: var(--okx-green);
+        }
+        .ai-box {
+            background: rgba(0, 255, 204, 0.04);
+            border-left: 4px solid var(--okx-green);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 25px;
+            text-align: left;
+            line-height: 1.6;
+            font-size: 13.5px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><span class="okx-brand">OKX</span> AI GENESIS</h1>
+        <div class="market-title">Agentic Crypto Assistant (Live)</div>
+
+        {% if prices %}
+        <div class="price-card">
+            <span class="ticker">BTC/USDT</span>
+            <span class="price">${{ "{:,.2f}".format(prices['BTC-USDT']['price']) }}</span>
+        </div>
+        <div class="price-card">
+            <span class="ticker">ETH/USDT</span>
+            <span class="price">${{ "{:,.2f}".format(prices['ETH-USDT']['price']) }}</span>
+        </div>
+        <div class="price-card">
+            <span class="ticker">SOL/USDT</span>
+            <span class="price">${{ "{:,.2f}".format(prices['SOL-USDT']['price']) }}</span>
+        </div>
+        {% else %}
+        <p style="color: red; font-size: 13px;">Error: Hindi makakonekta sa OKX APIs...</p>
+        {% endif %}
+
+        <form method="POST">
+            <label>Iyong Budget (USDT)</label>
+            <input type="number" name="budget" placeholder="Halimbawa: 500" required min="1">
+
+            <label>Anong Crypto Asset ang susuriin?</label>
+            <select name="crypto">
+                <option value="BTC">Bitcoin (BTC)</option>
+                <option value="ETH">Ethereum (ETH)</option>
+                <option value="SOL">Solana (SOL)</option>
+            </select>
+
+            <button type="submit">Suriin sa OKX.AI</button>
+        </form>
+
+        {% if advice %}
+        <div class="ai-box">
+            {{ advice }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
